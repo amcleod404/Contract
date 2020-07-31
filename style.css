@@ -1,0 +1,58 @@
+:root {
+  padding: 10px;
+}
+
+body {
+  background-color: #212121;
+  color: white;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+p {
+  color: white;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+#time {
+  color: #f55442;
+}
+
+label {
+  color: #616161;
+}
+
+.btn-primary {
+  background-color: #f55442;
+  border-color: #f55442;
+  margin: 15px 5px;
+}
+
+.btn-primary:hover {
+  background-color: #616161;
+  border-color: #616161;
+}
+
+h1 {
+  font-size: 60px;
+}
+
+h2 {
+  font-size: 45px;
+  margin-bottom: 0px;
+}
+
+.container {
+  text-align: center;
+}
+
+#date {
+  margin-bottom: 20px;
+}
+
+#form {
+  max-width: 40%;
+  align-items: center;
+  justify-content: center;
+}

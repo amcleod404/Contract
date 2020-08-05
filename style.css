@@ -56,3 +56,20 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+
+#time-info {
+  max-width: 50%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+
+}
+
+h5 {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+
+

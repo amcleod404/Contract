@@ -30,7 +30,7 @@
             class="form-control"
             id="name"
             aria-describedby="emailHelp"
-            placeholder="definition"
+            placeholder="Jahn Doe"
           />
         </div>
 
@@ -41,8 +41,13 @@
         >
           Clock In
         </button>
-        <button type="submit" class="btn btn-primary">Clock Out</button>
+        <button type="button" class="btn btn-primary" onclick="clockOut(document.getElementById('name'))">Clock Out</button>
       </form>
+    </div>
+
+    <div class="container" style="display: none;" id="time-info">
+    
+    
     </div>
 
     <div class="container">

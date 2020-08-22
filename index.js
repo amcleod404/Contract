@@ -1,11 +1,15 @@
+
+// UI Elements
 const day = document.getElementById("day");
 const time = document.getElementById("time");
 const quote = document.getElementById("quote");
 const author = document.getElementById("author");
 const form = document.getElementById('form');
 const info = document.getElementById('time-info');
-var count = 0;
-var num = Math.round(Math.random() * 1642);
+// Global Variables
+var count = 0; // counts number of seconds elapsed
+var num = Math.round(Math.random() * 1642); // a random number generator to choose quote of the day
+// Clock in/out tracking vars
 var ianStart;
 var ianFinish;
 var ianTotal;
@@ -19,7 +23,10 @@ var ryanStart;
 var ryanFinish;
 var ryanTotal;
 
+// *****************************************************************************************
 
+
+// Functions to display current time
 displayQuote();
 
 function display_c() {
@@ -56,13 +63,16 @@ function display_ct() {
   display_c();
 }
 
+// *****************************************************************************************
+
+// Function to display daily quote
+
 function displayQuote() {
   fetch("https://type.fit/api/quotes")
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       var words = data[num].text;
       words = words.substring(0, words.length - 1);
       theAuthor = data[num].author;
@@ -74,48 +84,107 @@ function displayQuote() {
     });
 }
 
+// Clock-In functionality
+
 const clockIn = (id) => {
   if (id.value === "") {
     alert('Enter an ID to Clock In 🤡');
   }
 
   var login = hashCode(id.value);
-  console.log(login);
   switch(login) {
     case 590:
-      console.log("beados");
+      if (localStorage.getItem('nikkoTime') !== null) {
+        alert('You are already clocked in!');
+        break;
+      }
       nikkoStart = new Date();
       storeStartTime(nikkoStart, 1);
+      alert('You have successfully clocked in');
       break;
 
     case 638:
-      console.log("ryan");
+      if (localStorage.getItem('ryanTime') !== null) {
+        alert('You are already clocked in!');
+        break;
+      }
       ryanStart = new Date();
       storeStartTime(ryanStart, 2);
+      alert('You have successfully clocked in');
       break;
 
     case 1238:
-      console.log("ian");
+      if (localStorage.getItem('ianTime') !== null) {
+        alert('You are already clocked in!');
+        break;
+      }
       ianStart = new Date();
       storeStartTime(ianStart, 3);
+      alert('You have successfully clocked in');
       break;
 
-    case 1124:
-      console.log("andrew");
+    case 1033:
+      if (localStorage.getItem('andrewTime') !== null) {
+        alert('You are already clocked in!');
+        break;
+      }
       andrewStart = new Date();
       storeStartTime(andrewStart, 4);
+      alert('You have successfully clocked in');
       break;
 
   }
   
 };
 
+const storeStartTime = (start, id) => {
+  let nikkoTime;
+  let ryanTime;
+  let ianTime;
+  let andrewTime;
+
+  if (id === 1) {
+      nikkoTime = [];
+      nikkoTime.push(start.toString());
+      localStorage.setItem('nikkoTime', JSON.stringify(nikkoTime));
+    
+  }
+
+  if (id === 2) {
+      ryanTime = [];
+      ryanTime.push(start.toString());
+      localStorage.setItem('ryanTime', JSON.stringify(ryanTime));
+    
+  }
+  
+  if (id === 3) {
+      ianTime = [];
+      ianTime.push(start.toString());
+      localStorage.setItem('ianTime', JSON.stringify(ianTime));
+    
+  }
+
+  if (id === 4) {
+      andrewTime = [];
+      andrewTime.push(start.toString());
+      localStorage.setItem('andrewTime', JSON.stringify(andrewTime));
+    
+  }
+
+}
+
+// *********************************************************************************************
+
+// Clock-Out Functionality
+
 const clockOut = (id) => {
   var login = hashCode(id.value);
-  console.log(login);
   switch(login) {
     case 590:
-      console.log("beados");
+      if (localStorage.getItem('nikkoTime') === null) {
+        alert('You have not clocked in! You must clock in before you can clock out');
+        break;
+      }
       nikkoFinish = new Date();
       storeFinishTime(nikkoFinish, 1);
       getTime(id, 1);
@@ -123,27 +192,81 @@ const clockOut = (id) => {
       break;
 
     case 638:
-      console.log("ryan");
+      if (localStorage.getItem('ryanTime') === null) {
+        alert('You have not clocked in! You must clock in before you can clock out');
+        break;
+      }
       ryanFinish = new Date();
       storeFinishTime(ryanFinish, 2);
       getTime(id, 2);
       break;
 
     case 1238:
-      console.log("ian");
+      if (localStorage.getItem('ianTime') === null) {
+        alert('You have not clocked in! You must clock in before you can clock out');
+        break;
+      }
       ianFinish = new Date();
       storeFinishTime(ianFinish, 3);
       getTime(id, 3);
       break;
 
-    case 1124:
-      console.log("andrew");
+    case 1033:
+      if (localStorage.getItem('andrewTime') === null) {
+        alert('You have not clocked in! You must clock in before you can clock out');
+        break;
+      }
       andrewFinish = new Date();
       storeFinishTime(andrewFinish, 4);
       getTime(id, 4);
       break;
   }
 };
+
+const storeFinishTime = (finish, id) => {
+
+  let nikkoTime;
+  let ryanTime;
+  let ianTime;
+  let andrewTime;
+
+  if (id === 1) {
+    
+    nikkoTime = JSON.parse(localStorage.getItem('nikkoTime'));
+    nikkoTime.push(finish.toString());
+    localStorage.setItem('nikkoTime', JSON.stringify(nikkoTime));
+    
+  }
+
+  if (id === 2) {
+
+    ryanTime = JSON.parse(localStorage.getItem('ryanTime'));
+    ryanTime.push(finish.toString());
+    localStorage.setItem('ryanTime', JSON.stringify(ryanTime));
+    
+  }
+  
+  if (id === 3) {
+
+    ianTime = JSON.parse(localStorage.getItem('ianTime'));
+    ianTime.push(finish.toString());
+    localStorage.setItem('ianTime', JSON.stringify(ianTime));
+    
+  }
+
+  if (id === 4) {
+
+    andrewTime = JSON.parse(localStorage.getItem('andrewTime'));
+    andrewTime.push(finish.toString());
+    localStorage.setItem('andrewTime', JSON.stringify(andrewTime));
+    
+  }
+  
+}
+
+// **************************************************************************************
+
+// Logic for calculating total time
 
 const getTime = (name, id) => {
 
@@ -195,152 +318,6 @@ const getTime = (name, id) => {
 
 }
 
-const reset = () => {
-  info.style.display = 'none';
-  form.style.display = 'block';
-}
-
-const hashCode = (name) => {
-  var hash = 0;
-  for (let indestartDate = 0; indestartDate < name.length; indestartDate++) {
-    hash += name.charCodeAt(indestartDate);
-  }
-  return hash;
-
-}
-
-const storeStartTime = (start, id) => {
-  let nikkoTime;
-  let ryanTime;
-  let ianTime;
-  let andrewTime;
-
-  if (id === 1) {
-    if (localStorage.getItem('nikkoTime') === null) {
-      nikkoTime = [];
-    } else {
-      nikkoTime = JSON.parse(localStorage.getItem('nikkoTime'));
-    }
-
-    nikkoTime.push(start.toString());
-    localStorage.setItem('nikkoTime', JSON.stringify(nikkoTime));
-    
-  }
-
-  if (id === 2) {
-    if (localStorage.getItem('ryanTime') === null) {
-      ryanTime = [];
-    } else {
-      ryanTime = JSON.parse(localStorage.getItem('ryanTime'));
-    }
-
-    ryanTime.push(start.toString());
-    localStorage.setItem('ryanTime', JSON.stringify(ryanTime));
-    
-  }
-  
-  if (id === 3) {
-    if (localStorage.getItem('ianTime') === null) {
-      ianTime = [];
-    } else {
-      ianTime = JSON.parse(localStorage.getItem('ianTime'));
-    }
-
-    ianTime.push(start.toString());
-    localStorage.setItem('ianTime', JSON.stringify(ianTime));
-    
-  }
-
-  if (id === 4) {
-    if (localStorage.getItem('andrewTime') === null) {
-      andrewTime = [];
-    } else {
-      andrewTime = JSON.parse(localStorage.getItem('andrewTime'));
-    }
-
-    andrewTime.push(start.toString());
-    localStorage.setItem('andrewTime', JSON.stringify(andrewTime));
-    
-  }
-  
-  
-
-  
-
-  console.log(localStorage);
-
-}
-
-// document.addEventListener('DOMContentLoaded', (e) => {
-//   let times;
-//   if (localStorage.getItem('times') === null) {
-//     times = [];
-//   } else {
-//     times = JSON.parse(localStorage.getItem('times'));
-//   }
-
-//   console.log(localStorage);
-// });
-
-const storeFinishTime = (finish, id) => {
-
-  let nikkoTime;
-  let ryanTime;
-  let ianTime;
-  let andrewTime;
-
-  if (id === 1) {
-    if (localStorage.getItem('nikkoTime') === null) {
-      nikkoTime = [];
-    } else {
-      nikkoTime = JSON.parse(localStorage.getItem('nikkoTime'));
-    }
-
-    nikkoTime.push(finish.toString());
-    localStorage.setItem('nikkoTime', JSON.stringify(nikkoTime));
-    
-  }
-
-  if (id === 2) {
-    if (localStorage.getItem('ryanTime') === null) {
-      ryanTime = [];
-    } else {
-      ryanTime = JSON.parse(localStorage.getItem('ryanTime'));
-    }
-
-    ryanTime.push(finish.toString());
-    localStorage.setItem('ryanTime', JSON.stringify(ryanTime));
-    
-  }
-  
-  if (id === 3) {
-    if (localStorage.getItem('ianTime') === null) {
-      ianTime = [];
-    } else {
-      ianTime = JSON.parse(localStorage.getItem('ianTime'));
-    }
-
-    ianTime.push(finish.toString());
-    localStorage.setItem('ianTime', JSON.stringify(ianTime));
-    
-  }
-
-  if (id === 4) {
-    if (localStorage.getItem('andrewTime') === null) {
-      andrewTime = [];
-    } else {
-      andrewTime = JSON.parse(localStorage.getItem('andrewTime'));
-    }
-
-    andrewTime.push(finish.toString());
-    localStorage.setItem('andrewTime', JSON.stringify(andrewTime));
-    
-  }
-
-  console.log(localStorage);
-  
-}
-
 const storeTotalTime = (id) => {
   if (localStorage.getItem('nikkoTotal') === null) {
     localStorage.setItem('nikkoTotal', "Hours: 0 , Minutes: 0 , Seconds: 0");
@@ -357,71 +334,110 @@ const storeTotalTime = (id) => {
 
   if (id === 1) {
 
+    var previousTotal = localStorage.getItem('nikkoTotal');
+    var previousHours = parseInt(previousTotal.substring(7,8)) * 3600;
+    var previousMinutes = parseInt(previousTotal.substring(20,21)) * 60;
+    var previousSeconds = parseInt(previousTotal.substring(33));
+
     var time = localStorage.getItem('nikkoTime');
     time = time.substring(1, time.length - 1);
     time = time.split(',');
     var totalTime = Date.parse(time[1]) - Date.parse(time[0]);
     totalTime = totalTime / 1000;
-    var seconds = totalTime % 60;
-    var minutes = Math.floor((totalTime / 60)) / 60;
+    totalTime += (previousHours + previousMinutes + previousSeconds);
     var hours = Math.floor(totalTime / 3600);
+    var minutes = Math.floor((totalTime % 3600) / 60);
+    var seconds = (totalTime % 3600) % 60;
     totalTime = "Hours: " + hours + " , Minutes: " + minutes + " , Seconds: " + seconds;
-    
     localStorage.setItem('nikkoTotal', totalTime);
-    console.log(localStorage);
+    localStorage.removeItem('nikkoTime');
 
   }
 
   if (id === 2) {
+
+    var previousTotal = localStorage.getItem('ryanTotal');
+    var previousHours = parseInt(previousTotal.substring(7,8)) * 3600;
+    var previousMinutes = parseInt(previousTotal.substring(20,21)) * 60;
+    var previousSeconds = parseInt(previousTotal.substring(33));
 
     var time = localStorage.getItem('ryanTime');
     time = time.substring(1, time.length - 1);
     time = time.split(',');
     var totalTime = Date.parse(time[1]) - Date.parse(time[0]);
     totalTime = totalTime / 1000;
-    var seconds = totalTime % 60;
-    var minutes = Math.floor((totalTime / 60)) / 60;
+    totalTime += (previousHours + previousMinutes + previousSeconds);
     var hours = Math.floor(totalTime / 3600);
+    var minutes = Math.floor((totalTime % 3600) / 60);
+    var seconds = (totalTime % 3600) % 60;
     totalTime = "Hours: " + hours + " , Minutes: " + minutes + " , Seconds: " + seconds;
-    
     localStorage.setItem('ryanTotal', totalTime);
-    console.log(localStorage);
+    localStorage.removeItem('ryanTime');
     
   }
   
   if (id === 3) {
+
+    var previousTotal = localStorage.getItem('ianTotal');
+    var previousHours = parseInt(previousTotal.substring(7,8)) * 3600;
+    var previousMinutes = parseInt(previousTotal.substring(20,21)) * 60;
+    var previousSeconds = parseInt(previousTotal.substring(33));
 
     var time = localStorage.getItem('ianTime');
     time = time.substring(1, time.length - 1);
     time = time.split(',');
     var totalTime = Date.parse(time[1]) - Date.parse(time[0]);
     totalTime = totalTime / 1000;
-    var seconds = totalTime % 60;
-    var minutes = Math.floor((totalTime / 60)) / 60;
+    totalTime += (previousHours + previousMinutes + previousSeconds);
     var hours = Math.floor(totalTime / 3600);
+    var minutes = Math.floor((totalTime % 3600) / 60);
+    var seconds = (totalTime % 3600) % 60;
     totalTime = "Hours: " + hours + " , Minutes: " + minutes + " , Seconds: " + seconds;
-    
     localStorage.setItem('ianTotal', totalTime);
-    console.log(localStorage);
-    
+    localStorage.removeItem('ianTime');
   }
 
   if (id === 4) {
+
+    var previousTotal = localStorage.getItem('andrewTotal');
+    var previousHours = parseInt(previousTotal.substring(7,8)) * 3600;
+    var previousMinutes = parseInt(previousTotal.substring(20,21)) * 60;
+    var previousSeconds = parseInt(previousTotal.substring(33));
 
     var time = localStorage.getItem('andrewTime');
     time = time.substring(1, time.length - 1);
     time = time.split(',');
     var totalTime = Date.parse(time[1]) - Date.parse(time[0]);
     totalTime = totalTime / 1000;
-    var seconds = totalTime % 60;
-    var minutes = Math.floor((totalTime / 60)) / 60;
+    totalTime += (previousHours + previousMinutes + previousSeconds);
     var hours = Math.floor(totalTime / 3600);
+    var minutes = Math.floor((totalTime % 3600) / 60);
+    var seconds = (totalTime % 3600) % 60;
     totalTime = "Hours: " + hours + " , Minutes: " + minutes + " , Seconds: " + seconds;
-    
     localStorage.setItem('andrewTotal', totalTime);
-    console.log(localStorage);
+    localStorage.removeItem('andrewTime');
     
   }
 
 }
 
+
+// ************************************************************************************************************
+
+// Miscellaneous Functions
+
+// Converts the timesheet back to the start page
+const reset = () => {
+  info.style.display = 'none';
+  form.style.display = 'block';
+}
+
+// Determines which user is logging in
+const hashCode = (name) => {
+  var hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash += name.charCodeAt(i);
+  }
+  return hash;
+
+}
